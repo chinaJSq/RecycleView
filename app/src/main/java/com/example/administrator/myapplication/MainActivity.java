@@ -1,8 +1,10 @@
 package com.example.administrator.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -30,7 +32,6 @@ public class MainActivity extends Activity implements SwipeRefreshLayout.OnRefre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initDate();//初始化数据
         iniView();//初始化布局
         initEven();//初始化事件
@@ -46,6 +47,9 @@ public class MainActivity extends Activity implements SwipeRefreshLayout.OnRefre
             {
                 Toast.makeText(MainActivity.this, position + " click",
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this,TabbarActivity.class);
+                startActivity(intent);
+
             }
 
             @Override
@@ -57,28 +61,24 @@ public class MainActivity extends Activity implements SwipeRefreshLayout.OnRefre
             }
         });
 
-
         mRecycle.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
 
                         simulateLoadMoreData();
-
             }
         });
-
-
     }
     private void simulateLoadMoreData() {
 
         loadMoreData();
         mMyAdapter.notifyDataSetChanged();
         Toast.makeText(MainActivity.this, "Load Finished!", Toast.LENGTH_SHORT).show();
-
     }
 
     private void loadMoreData() {
         List<String> moreList = new ArrayList<>();
+        moreList.add("加载更多的数据");
         moreList.add("加载更多的数据");
         mDate.addAll(moreList);
     }
@@ -156,10 +156,7 @@ public class MainActivity extends Activity implements SwipeRefreshLayout.OnRefre
             strings.add("新数据2");
             return strings;
         }
-
-
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
